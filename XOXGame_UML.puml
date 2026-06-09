@@ -1,0 +1,189 @@
+@startuml
+title XOXGame OOP Class Diagram - Clean Layout
+
+' Layout settings
+left to right direction
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+skinparam packageStyle rectangle
+skinparam nodesep 55
+skinparam ranksep 65
+skinparam shadowing false
+
+skinparam class {
+  BackgroundColor #FFFFFF
+  BorderColor #2F5597
+  ArrowColor #2F5597
+}
+
+skinparam package {
+  BackgroundColor #F7F9FC
+  BorderColor #6C8EBF
+}
+
+package "UI Layer" as UI {
+  class XOXGame {
+    - GameBoard gameBoard
+    - GameState gameState
+    - QuestionBank questionBank
+    - Question currentQuestion
+    - Player xPlayer
+    - Player oPlayer
+    --
+    + main(String[] args)
+    - startGame()
+    - stopGame()
+    - rebuildGameGrid(int size)
+    - markClickedBox(int index)
+    - computerTurn()
+  }
+
+  class GraphicsPanel {
+    + paintComponent(Graphics g)
+  }
+}
+
+package "Game Model" as MODEL {
+  class GameBoard {
+    + EMPTY : char
+    + PLAYER_X : char
+    + PLAYER_O : char
+    - grid : char[][]
+    - size : int
+    - moveCount : int
+    --
+    + makeMove(int, char) : boolean
+    + undoMove(int) : void
+    + checkWin(char) : boolean
+    + isFull() : boolean
+    + getEmptyCells() : List<Integer>
+  }
+
+  class GameState {
+    - xTurn : boolean
+    - gameOver : boolean
+    - gameStarted : boolean
+    - result : Result
+    - xWins : int
+    - oWins : int
+    - draws : int
+    --
+    + resetForNewGame(boolean) : void
+    + switchTurn() : void
+    + getCurrentMark() : char
+    + resetScores() : void
+  }
+
+  enum Result {
+    NONE
+    X_WINS
+    O_WINS
+    DRAW
+  }
+}
+
+package "Players" as PLAYERS {
+  abstract class Player {
+    # name : String
+    # mark : char
+    --
+    + chooseMove(GameBoard) : int
+    + getName() : String
+    + getMark() : char
+  }
+
+  class HumanPlayer {
+    + chooseMove(GameBoard) : int
+  }
+
+  class ComputerPlayer {
+    - strategy : AIStrategy
+    --
+    + chooseMove(GameBoard) : int
+    + setStrategy(AIStrategy) : void
+  }
+}
+
+package "AI Strategy" as AI {
+  interface AIStrategy {
+    + chooseMove(GameBoard, char) : int
+  }
+
+  class RandomStrategy {
+    - random : Random
+    --
+    + chooseMove(GameBoard, char) : int
+  }
+
+  class MinimaxStrategy {
+    + chooseMove(GameBoard, char) : int
+    - minimax(...) : int
+    - getDepthLimit(int) : int
+  }
+}
+
+package "Question System" as QUESTIONS {
+  class QuestionBank {
+    - questions : List<Question>
+    - random : Random
+    --
+    + getRandomQuestion() : Question
+    + getRandomQuestion(String) : Question
+    + getCategories() : List<String>
+  }
+
+  class Question {
+    - question : String
+    - answer : String
+    - category : String
+    --
+    + checkAnswer(String) : boolean
+    + getQuestion() : String
+    + getAnswer() : String
+    + getCategory() : String
+  }
+}
+
+' Main ownership / association flow
+XOXGame *-- GameBoard
+XOXGame *-- GameState
+XOXGame *-- QuestionBank
+XOXGame --> Question : current
+XOXGame --> Player : xPlayer / oPlayer
+XOXGame *-- GraphicsPanel
+
+' Player hierarchy
+Player <|-- HumanPlayer
+Player <|-- ComputerPlayer
+
+' AI interface hierarchy
+AIStrategy <|.. RandomStrategy
+AIStrategy <|.. MinimaxStrategy
+ComputerPlayer o-- AIStrategy
+
+' Question ownership
+QuestionBank *-- Question
+
+' GameState inner enum
+GameState +-- Result
+
+' Dependencies kept short
+Player ..> GameBoard
+AIStrategy ..> GameBoard
+MinimaxStrategy ..> GameBoard
+
+' Hidden layout guides for a stable visual pattern
+UI -[hidden]right- MODEL
+MODEL -[hidden]right- PLAYERS
+PLAYERS -[hidden]right- AI
+MODEL -[hidden]down- QUESTIONS
+
+XOXGame -[hidden]down- GraphicsPanel
+GameBoard -[hidden]down- GameState
+Player -[hidden]down- HumanPlayer
+HumanPlayer -[hidden]down- ComputerPlayer
+AIStrategy -[hidden]down- RandomStrategy
+RandomStrategy -[hidden]down- MinimaxStrategy
+QuestionBank -[hidden]down- Question
+
+@enduml
