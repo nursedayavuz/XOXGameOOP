@@ -238,7 +238,7 @@ public class XOXGame extends JFrame {
 
         JPanel controlsColumn = new JPanel(new GridBagLayout());
         controlsColumn.setOpaque(false);
-        controlsColumn.setPreferredSize(new Dimension(520, 470));
+        controlsColumn.setPreferredSize(new Dimension(520, 700));
         mainPanel.add(controlsColumn, BorderLayout.EAST);
 
         messageTextField.setPreferredSize(new Dimension(520, 64));
@@ -437,7 +437,7 @@ public class XOXGame extends JFrame {
     }
 
     private void buildGridSizePanel(JPanel page) {
-        preparePanel(gridSizePanel, new Dimension(230, 116));
+        preparePanel(gridSizePanel, new Dimension(230, 150));
         GridBagConstraints gridConstraints = constraints(1, 0);
         gridConstraints.insets = new Insets(5, 10, 5, 10);
         page.add(gridSizePanel, gridConstraints);
@@ -513,10 +513,12 @@ public class XOXGame extends JFrame {
     }
 
     private void buildCategoryPanel(JPanel page) {
-        preparePanel(categoryPanel, new Dimension(250, 124));
+        preparePanel(categoryPanel, new Dimension(250, 160));
         GridBagConstraints gridConstraints = constraints(1, 2);
         gridConstraints.insets = new Insets(5, 10, 5, 10);
         page.add(categoryPanel, gridConstraints);
+
+        addPanelTitle(categoryPanel, "SORU KATEGORİSİ", 0);
 
         allQuestionsRadioButton.setText("Tüm Sorular");
         bursaRadioButton.setText("BURSA");
@@ -529,13 +531,13 @@ public class XOXGame extends JFrame {
         categoryButtonGroup.add(bursaRadioButton);
         categoryButtonGroup.add(technologyRadioButton);
 
-        gridConstraints = constraints(0, 0);
-        gridConstraints.anchor = GridBagConstraints.WEST;
-        categoryPanel.add(allQuestionsRadioButton, gridConstraints);
         gridConstraints = constraints(0, 1);
         gridConstraints.anchor = GridBagConstraints.WEST;
-        categoryPanel.add(bursaRadioButton, gridConstraints);
+        categoryPanel.add(allQuestionsRadioButton, gridConstraints);
         gridConstraints = constraints(0, 2);
+        gridConstraints.anchor = GridBagConstraints.WEST;
+        categoryPanel.add(bursaRadioButton, gridConstraints);
+        gridConstraints = constraints(0, 3);
         gridConstraints.anchor = GridBagConstraints.WEST;
         categoryPanel.add(technologyRadioButton, gridConstraints);
     }
@@ -1281,6 +1283,7 @@ public class XOXGame extends JFrame {
     private void preparePanel(JPanel panel, Dimension size) {
         panel.setPreferredSize(size);
         panel.setBackground(PANEL_BACKGROUND);
+        panel.setOpaque(false);
         panel.setBorder(new RoundedBorder(Theme.BORDER, Theme.RADIUS, 8, 12, 8, 12));
         panel.setLayout(new GridBagLayout());
     }

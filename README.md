@@ -95,10 +95,4 @@ Her sinif belirli bir sorumluluga odaklanir. Ornegin `QuestionBank` sadece soru 
 
 ## Kullanilan Tasarim Dili
 
-Arayuz, `DESIGN.md`, `variables.css`, `theme.css` ve `tokens.json` dosyalarindaki koyu kozmik tasarim dilinden Java Swing'e uyarlanmistir. CSS dosyalari Swing tarafinda dogrudan calismaz; bu nedenle renk ve sekil tokenlari `Theme.java` icinde Java sabitlerine cevrilmistir.
-
-## Notlar
-
-- Proje Git deposu olarak baslatilmamistir; bu nedenle surum takibi manuel dosyalar uzerinden yapilir.
-- Derleme sirasinda Swing'in eski API kullanimindan kaynakli uyarilar gorulebilir, fakat uygulama calisir.
-- Turkce karakter kodlamasi icin IDE dosya encoding ayarinin UTF-8 olmasi onerilir.
+Arayuz, `DESIGN.md`, `variables.css`, `theme.css` ve `tokens.json` dosyalarindaki koyu kozmik tasarim dilinden Java Swing'e uyarlanmistir. CSS dosyalari Swing tarafinda dogrudan calismaz; bu nedenle renk ve sekil tokenlari `Theme.java` icinde Java sabitlerine cevrilmistir. 
